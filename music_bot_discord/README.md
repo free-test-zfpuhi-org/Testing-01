@@ -50,3 +50,11 @@ Added few commands, would need to add more.
 <p>increase queue up to 10 songs to be listed instead of only 4</p>
 <p>To add the option to repeat (loop) a song/track and to stop repeating the song/track</p>
 
+<br><br>
+# Installation Requirments:
+- You would need to download the FFMPEG from here -> https://www.gyan.dev/ffmpeg/builds/ ( I downloaded the 7z), extract the files and only copy the ffmpeg.exe into the bot directory.
+- You would have to create a Spotify API and place its code in a file named .spotify located in the bot directory.
+The credentials in the .spotify file should be as follows SPOTIPY_CLIENT_ID='id' and SPOTIPY_CLIENT_SECRET='secret'
+- You would have to create a Youtube API from Google and place its credentials in a file named '.youtubeapi'.
+- You would need to create a file named '.tokens' in which you have to simply place the Discord Developer App Token.
+- Additional information could be found in the 'requirements.txt' file.
