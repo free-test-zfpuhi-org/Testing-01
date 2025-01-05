@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import ValidatorReport from "../components/ValidatorReport";
+import { Button } from "@/components/ui/button";
+import { GridBackground } from "@/components/gridbackground";
 
 const HomePage = () => {
   const [file, setFile] = useState(null);
   const [validationResult, setValidationResult] = useState(null);
   const [error, setError] = useState("");
 
+  // Handles the file selection
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile && selectedFile.name.endsWith(".xml")) {
@@ -19,6 +21,7 @@ const HomePage = () => {
     }
   };
 
+  // Handle file upload
   const handleUpload = async () => {
     if (!file) {
       setError("Please select an XML file to upload.");
@@ -43,10 +46,7 @@ const HomePage = () => {
           throw new Error(`Server error: ${response.status}`);
         }
 
-        // Parse the response as plain text since it's XML
         const result = await response.text();
-
-        // Pass the raw XML response to the validationResult state
         setValidationResult(result);
         setError("");
       } catch (err) {
@@ -59,35 +59,34 @@ const HomePage = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-50">
-      <div className="w-full max-w-md p-6 bg-white rounded shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-6">XML Validator</h1>
-
-        <div className="flex flex-col gap-4">
-          <input
-            type="file"
-            accept=".xml"
-            onChange={handleFileChange}
-            className="file-input file-input-bordered w-full"
-          />
-          <button
-            onClick={handleUpload}
-            className="btn btn-primary w-full"
-          >
-            Validate File
-          </button>
-        </div>
-
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-
-        {validationResult && (
-          <div className="mt-6">
-            {/* Pass the raw XML response to the ValidatorReport component */}
-            <ValidatorReport reportData={validationResult} />
+    <div className="relative min-h-screen">
+      <GridBackground />
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen p-6">
+        <div className="w-full max-w-md p-6 bg-white rounded shadow-md">
+          <h1 className="text-2xl font-bold text-center mb-6">XML Validator</h1>
+          <div className="flex flex-col gap-4">
+            {/* File input, allowing only XML files to be selected */}
+            <input
+              type="file"
+              accept=".xml" // Ensures only XML files are visible
+              onChange={handleFileChange}
+              className="file-input file-input-bordered w-full"
+            />
+            <Button onClick={handleUpload}>Validate File</Button>
+            <Button variant="secondary">Secondary</Button>
           </div>
-        )}
-      </div>
-    </main>
+          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {validationResult && (
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold">Validation Result:</h2>
+              <pre className="mt-2 p-2 bg-gray-100 border rounded text-sm overflow-auto">
+                {validationResult}
+              </pre>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
   );
 };
 
